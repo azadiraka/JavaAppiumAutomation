@@ -3,12 +3,10 @@ import org.junit.Test;
 
 public class MainClassTest extends MainClass {
 
-    int actual = this.getLocalNumber();
-
     @Test
     public void testGetLocalNumber() {
         int expected = 14;
-        Assert.assertTrue("getLocalNumber() returns the wrong value",actual == expected);
+        Assert.assertTrue("getLocalNumber() returns the wrong value, it doesn't equal 14",this.getLocalNumber() == expected);
     }
 
     @Test
