@@ -1,1 +1,1 @@
-# mobileUITests-junit-appium
+JavaAppiumAutomation course 14.07.2021
