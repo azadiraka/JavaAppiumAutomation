@@ -138,6 +138,37 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testCancelArticleSearch() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find an fragment_onboarding_skip_button",
+                1);
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find an element_search_line_init",
+                2);
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Android",
+                "Cannot find an element_tap_search_line and find Java topics",
+                2);
+        assertElementHasText(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Android",
+                "Cannot find expected text",
+                10);
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find input text 'Android'",
+                2);
+        assertElementHasText(
+                By.id("org.wikipedia:id/search_empty_message"),
+                "Search Wikipedia in more languages",
+                "Articles are still present",
+                2);
+    }
+
     private WebElement waitForElementPresent (By by, String error_message, long timeoutInSec) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSec);
         wait.withMessage(error_message + "\n");
@@ -181,8 +212,8 @@ public class FirstTest {
         String title_element = element.getAttribute("text");
         Assert.assertEquals(
                 "Cannot find expected text",
-                expected_text,
-                title_element
+                title_element.contains(expected_text),
+                true
         );
         return title_element;
     }
