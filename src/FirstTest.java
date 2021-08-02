@@ -124,6 +124,20 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testExpectedText(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find a SKIP button",
+                1);
+        assertElementHasText(
+                By.id("org.wikipedia:id/view_announcement_action_negative"),
+                "GOT IT",
+                "Cannot find expected text",
+                2
+        );
+    }
+
     private WebElement waitForElementPresent (By by, String error_message, long timeoutInSec) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSec);
         wait.withMessage(error_message + "\n");
@@ -160,6 +174,17 @@ public class FirstTest {
         return wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(by)
         );
+    }
+
+    private String assertElementHasText(By by, String expected_text, String error_message, long timeoutInSec) {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSec);
+        String title_element = element.getAttribute("text");
+        Assert.assertEquals(
+                "Cannot find expected text",
+                expected_text,
+                title_element
+        );
+        return title_element;
     }
 
 }
