@@ -318,6 +318,31 @@ public class FirstTest {
     }
 
     @Test
+    public void testArticleTitlePresent(){
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find a SKIP button",
+                1);
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find the Search Wikipedia input",
+                2);
+        String search_line = "iOS";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                search_line,
+                "Cannot find search input",
+                2);
+        waitForElementAndClick(
+                By.xpath("//*[@text='Mobile operating system by Apple']"),
+                "Cannot find the article by the request" + search_line,
+                5);
+        assertElementPresent(
+                By.id("pcs-edit-section-title-description"),
+                "Cannot find the article's title");
+    }
+
+    @Test
     public void testAmountOfNonEmptySearch(){
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -570,4 +595,11 @@ public class FirstTest {
         }
     }
 
+    private void assertElementPresent(By by, String error_message) {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements != 1) {
+            String default_message = "An element '" + by.toString() + "' is not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+    }
 }
