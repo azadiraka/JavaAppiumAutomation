@@ -5,6 +5,7 @@ import lib.ui.SearchPageObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ScreenOrientation;
 
 public class FirstTest extends CoreTestCase {
 
@@ -383,5 +384,55 @@ public class FirstTest extends CoreTestCase {
                 title_before_rotation,
                 title_after_second_rotation);
         this.rotateScreenPortrait();
+    }
+
+    public void testChangeScreenOrientationOnSearchResultsAndBack()
+    {
+        MainPageObject.waitForElementAndClick(
+                By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
+                "Cannot find a SKIP button",
+                1);
+        MainPageObject.waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find the Search Wikipedia input",
+                2);
+        MainPageObject.waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Java",
+                "Cannot find search input",
+                2);
+        MainPageObject.waitForElementAndClick(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot find Java article",
+                5);
+
+        String title_before_rotation = MainPageObject.waitForElementAndGetAttribute(
+                By.xpath("//*[@class='android.view.View'][@text='Java (programming language)']"),
+                "text",
+                "Cannot find title of article",
+                5);
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+        String title_after_rotation = MainPageObject.waitForElementAndGetAttribute(
+                By.xpath("//*[@class='android.view.View'][@text='Java (programming language)']"),
+                "text",
+                "Cannot find title of article",
+                5);
+
+        Assert.assertEquals(
+                "Article title have been changed after screen rotation",
+                title_before_rotation,
+                title_after_rotation);
+
+        driver.rotate(ScreenOrientation.PORTRAIT);
+        String title_after_second_rotation = MainPageObject.waitForElementAndGetAttribute(
+                By.xpath("//*[@class='android.view.View'][@text='Java (programming language)']"),
+                "text",
+                "Cannot find title of article",
+                5);
+
+        Assert.assertEquals(
+                "Article title have been changed after screen rotation",
+                title_before_rotation,
+                title_after_second_rotation);
     }
 }
