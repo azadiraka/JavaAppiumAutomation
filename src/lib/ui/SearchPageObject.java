@@ -13,7 +13,8 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_RESULT_BY_TITLE_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{SUBSTRING}']",
             SEARCH_RESULT_BY_DESC_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.widget.TextView']",
-            SEARCH_EMPTY_RESULT = "//*[@text='No results']";
+            SEARCH_EMPTY_RESULT = "//*[@text='No results']",
+            CLOSE_SEARCH_BUTTON = "//*[@class='android.widget.ImageButton']";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -106,5 +107,13 @@ public class SearchPageObject extends MainPageObject{
     public void assertThereIsNoResultSearch()
     {
         this.assertElementNotPresent(By.xpath(SEARCH_EMPTY_RESULT), "We didn't find any result");
+    }
+
+    public void closeSearch()
+    {
+        this.waitForElementAndClick(
+                By.xpath(CLOSE_SEARCH_BUTTON),
+                "Cannot find <- button",
+                5);
     }
 }
