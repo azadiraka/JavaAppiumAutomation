@@ -49,7 +49,7 @@ public class ArticlePageObject extends MainPageObject{
         );
     }
 
-    public void addToMyList(String name_of_folder)
+    public void addToMyListAndCreateNewList(String name_of_folder)
     {
         this.waitForElementAndClick(
                 By.id(BOOKMARK_BUTTON),
@@ -76,6 +76,14 @@ public class ArticlePageObject extends MainPageObject{
                 By.id(OK_BUTTON),
                 "Cannot find 'OK' button",
                 2);
+    }
+
+    public void addArticlesToSaved()
+    {
+        this.waitForElementAndClick(
+                By.id(BOOKMARK_BUTTON),
+                "Cannot find bookmark button",
+                5);
     }
 
     public void closeArticle()
