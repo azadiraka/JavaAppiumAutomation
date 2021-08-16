@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
 
@@ -55,4 +56,19 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.assertThereIsNoResultSearch();
     }
 
+    @Test
+    public void testElementPresentAfterBackground(){
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.clickSkipOnboardingButton();
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForSearchResultByDescription("Object-oriented programming language");
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+
+        ArticlePageObject.getArticleTitle("Java (programming language)");
+        this.backgroundApp(2);
+        ArticlePageObject.getArticleTitle("Java (programming language)");
+    }
 }

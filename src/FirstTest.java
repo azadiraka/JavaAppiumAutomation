@@ -126,21 +126,6 @@ public class FirstTest extends CoreTestCase {
     }
 
 
-    @Test
-    public void testElementPresentAfterBackground(){
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-
-        SearchPageObject.clickSkipOnboardingButton();
-        SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.waitForSearchResultByDescription("Object-oriented programming language");
-
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-
-        ArticlePageObject.getArticleTitle("Java (programming language)");
-        this.backgroundApp(2);
-        ArticlePageObject.getArticleTitle("Java (programming language)");
-    }
 
     @Test
     public void testExpectedText(){
