@@ -40,4 +40,18 @@ public class ArticleTests extends CoreTestCase {
         ArticlePageObject.waitForTitleElementWithSubstring("Appium");
         ArticlePageObject.swipeToFooter();
     }
+
+    @Test
+    public void testArticleTitlePresent(){
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.clickSkipOnboardingButton();
+        SearchPageObject.initSearchInput();
+        String search_line = "iOS";
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.clickByArticleWithSubstringByDescription("Mobile operating system by Apple");
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForTitleElementWithSubstring(search_line);
+    }
 }

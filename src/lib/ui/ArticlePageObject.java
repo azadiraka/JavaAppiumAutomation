@@ -93,4 +93,14 @@ public class ArticlePageObject extends MainPageObject{
                 "Cannot find <- button",
                 1);
     }
+
+    public void assertArticleHasATextInTitle(String article_name)
+    {
+        String article_xpath = getArticleTitleWithSubstring(article_name);
+        this.assertElementHasText(
+                By.xpath(article_xpath),
+                article_name,
+                "Cannot find expected text in first article found by the request " + article_name,
+                5);
+    }
 }

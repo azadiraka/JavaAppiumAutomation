@@ -14,7 +14,10 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_RESULT_BY_DESC_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{SUBSTRING}']",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.widget.TextView']",
             SEARCH_EMPTY_RESULT = "//*[@text='No results']",
-            CLOSE_SEARCH_BUTTON = "//*[@class='android.widget.ImageButton']";
+            CLOSE_SEARCH_BUTTON = "//*[@class='android.widget.ImageButton']",
+            ARTICLE_TITLES_IN_SEARCH = "org.wikipedia:id/page_list_item_title",
+            EMPTY_SEARCH_LABEL = "org.wikipedia:id/search_empty_message",
+            EMPTY_SEARCH_TEXT = "Search Wikipedia in more languages";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -115,5 +118,23 @@ public class SearchPageObject extends MainPageObject{
                 By.xpath(CLOSE_SEARCH_BUTTON),
                 "Cannot find <- button",
                 5);
+    }
+
+    public void assertArticlesInSearchHasTextInTitle(String article_name)
+    {
+        this.assertElementHasText(
+                By.id(ARTICLE_TITLES_IN_SEARCH),
+                article_name,
+                "Cannot find text in titles in list with " + article_name,
+                10);
+    }
+
+    public void assertEmptySearchText()
+    {
+        this.assertElementHasText(
+                By.id(EMPTY_SEARCH_LABEL),
+                EMPTY_SEARCH_TEXT,
+                "Articles are still present",
+                10);
     }
 }

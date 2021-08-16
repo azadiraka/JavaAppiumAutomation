@@ -71,4 +71,17 @@ public class SearchTests extends CoreTestCase {
         this.backgroundApp(2);
         ArticlePageObject.getArticleTitle("Java (programming language)");
     }
+
+    @Test
+    public void testCancelArticleSearch() {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.clickSkipOnboardingButton();
+        SearchPageObject.initSearchInput();
+        String search_line = "Android";
+        SearchPageObject.typeSearchLine(search_line);
+        SearchPageObject.assertArticlesInSearchHasTextInTitle(search_line);
+        SearchPageObject.clickCancelSearchButton();
+        SearchPageObject.assertEmptySearchText();
+    }
 }

@@ -3,13 +3,11 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-import java.awt.*;
-
 public class MyListsPageObject extends MainPageObject
 {
     public static final String
-            FOLDER_BY_NAME_TPL = "//*[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "//*[@text='{ARTICLE_NAME}']",
+            FOLDER_BY_NAME_TPL = "//*[@resource-id='org.wikipedia:id/item_title'][@text='{FOLDER_NAME}']",
+            ARTICLE_BY_TITLE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{ARTICLE_NAME}']",
             CLOSE_SYNC_LISTS_BUTTON = "org.wikipedia:id/negativeButton";
 
     /* TEMPLATE METHODS */
@@ -71,5 +69,14 @@ public class MyListsPageObject extends MainPageObject
                 By.xpath(article_xpath),
                 "Cannot delete saved article " + article_title);
         this.waitArticleToDisappear(article_title);
+    }
+
+    public void openArticleFromList(String article_name)
+    {
+        String article_xpath = getSavedArticleByXPath(article_name);
+        this.waitForElementAndClick(
+                By.xpath(article_xpath),
+                "Cannot find the article by title " + article_name,
+                5);
     }
 }
