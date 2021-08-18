@@ -12,6 +12,10 @@ public class SearchPageObject extends MainPageObject{
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_TITLE_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{SUBSTRING}']",
             SEARCH_RESULT_BY_DESC_SUBSTRING_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{SUBSTRING}']",
+            SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL =
+                    "//*[@resource-id='org.wikipedia:id/search_results_list']/*[@class='android.view.ViewGroup']" +
+                            "[.//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{TITLE}']]" +
+                            "[.//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DESCRIPTION}']]",
             SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@class='android.widget.TextView']",
             SEARCH_EMPTY_RESULT = "//*[@text='No results']",
             CLOSE_SEARCH_BUTTON = "//*[@class='android.widget.ImageButton']",
@@ -33,6 +37,13 @@ public class SearchPageObject extends MainPageObject{
     private static String getResultSearchElementByTitle(String substring)
     {
         return SEARCH_RESULT_BY_TITLE_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getResultSearchWithTitleAndDescription(String title, String description)
+    {
+        return SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL
+                .replace("{TITLE}", title)
+                .replace("{DESCRIPTION}", description);
     }
     /* TEMPLATE METHODS */
 
@@ -78,10 +89,20 @@ public class SearchPageObject extends MainPageObject{
         String search_result_xpath = getResultSearchElementByDescription(substring);
         this.waitForElementAndClick(By.xpath(search_result_xpath), "Cannot find and click search results with substring " + substring, 10);
     }
+
     public void waitForSearchResultByTitle(String substring)
     {
         String search_result_xpath = getResultSearchElementByTitle(substring);
         this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search results with substring " + substring);
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description)
+    {
+        String search_result_with_title_and_description = getResultSearchWithTitleAndDescription(title, description);
+        this.waitForElementPresent(
+                By.xpath(search_result_with_title_and_description),
+                "Cannot find search results with title '" + title + "' and description '" + description + "'",
+                10);
     }
 
     public void clickByArticleWithSubstringByTitle(String substring)
