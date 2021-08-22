@@ -17,5 +17,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="junit-4.13.2" level="project" />
+    <orderEntry type="library" name="javax.websocket-api-1.1" level="project" />
+    <orderEntry type="library" name="java-client-7.5.1-all" level="project" />
+    <orderEntry type="library" name="selenium-server-standalone-3.9.0" level="project" />
   </component>
 </module>

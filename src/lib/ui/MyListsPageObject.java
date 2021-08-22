@@ -1,14 +1,13 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class MyListsPageObject extends MainPageObject
 {
     public static final String
-            FOLDER_BY_NAME_TPL = "//*[@resource-id='org.wikipedia:id/item_title'][@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{ARTICLE_NAME}']",
-            CLOSE_SYNC_LISTS_BUTTON = "org.wikipedia:id/negativeButton";
+            FOLDER_BY_NAME_TPL = "xpath://*[@resource-id='org.wikipedia:id/item_title'][@text='{FOLDER_NAME}']",
+            ARTICLE_BY_TITLE_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{ARTICLE_NAME}']",
+            CLOSE_SYNC_LISTS_BUTTON = "id:org.wikipedia:id/negativeButton";
 
     /* TEMPLATE METHODS */
     private static String getFolderNameByXPath(String name_of_folder)
@@ -31,14 +30,14 @@ public class MyListsPageObject extends MainPageObject
     {
         String folder_name_xpath = getFolderNameByXPath(name_of_folder);
         this.waitForElementAndClick(
-                By.xpath(folder_name_xpath),
+                folder_name_xpath,
                 "Cannot find folder by name " + name_of_folder,
                 5);
     }
 
     public void closeSyncLists(){
         this.waitForElementAndClick(
-                By.id(CLOSE_SYNC_LISTS_BUTTON),
+                CLOSE_SYNC_LISTS_BUTTON,
                 "Cannot find Close sync lists button 'Not now'",
                 5);
     }
@@ -47,7 +46,7 @@ public class MyListsPageObject extends MainPageObject
     {
         String article_xpath = getSavedArticleByXPath(article_title);
         this.waitForElementPresent(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Cannot find saved article by title " + article_title,
                 10);
     }
@@ -56,7 +55,7 @@ public class MyListsPageObject extends MainPageObject
     {
         String article_xpath = getSavedArticleByXPath(article_title);
         this.waitForElementNotPresented(
-                By.xpath(article_xpath),
+                article_xpath,
                 "The article is still present " + article_title,
                 10);
     }
@@ -66,7 +65,7 @@ public class MyListsPageObject extends MainPageObject
         this.waitArticleToAppear(article_title);
         String article_xpath = getSavedArticleByXPath(article_title);
         this.swipeElementToLeft(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Cannot delete saved article " + article_title);
         this.waitArticleToDisappear(article_title);
     }
@@ -75,7 +74,7 @@ public class MyListsPageObject extends MainPageObject
     {
         String article_xpath = getSavedArticleByXPath(article_name);
         this.waitForElementAndClick(
-                By.xpath(article_xpath),
+                article_xpath,
                 "Cannot find the article by title " + article_name,
                 5);
     }
