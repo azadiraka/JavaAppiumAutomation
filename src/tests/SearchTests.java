@@ -3,12 +3,14 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -18,7 +20,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testCancelSearch() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -30,7 +32,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testAmountOfNonEmptySearch(){
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -44,7 +46,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testAmountOfSearchByNameAndDescription(){
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -60,7 +62,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testAmountOfEmptySearch(){
 
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -72,14 +74,14 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testElementPresentAfterBackground(){
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForSearchResultByDescription("Object-oriented programming language");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
         ArticlePageObject.getArticleTitle("Java (programming language)");
         this.backgroundApp(2);
@@ -88,7 +90,7 @@ public class SearchTests extends CoreTestCase {
 
     @Test
     public void testCancelArticleSearch() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();

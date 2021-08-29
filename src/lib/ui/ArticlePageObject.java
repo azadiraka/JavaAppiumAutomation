@@ -2,18 +2,20 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebElement;
+import lib.Platform;
 
-public class ArticlePageObject extends MainPageObject{
+abstract public class ArticlePageObject extends MainPageObject{
 
-    public final static String
-            TITLE_TPL = "xpath://*[@class='android.view.View'][@text='{SUBSTRING}']",
-            FOOTER_ELEMENT = "xpath://*[@text='View article in browser']",
-            BOOKMARK_BUTTON = "id:org.wikipedia:id/article_menu_bookmark",
-            ADD_TO_ANOTHER_LIST_BUTTON = "xpath://*[@text='Add to another reading list']",
-            CREATE_NEW_LIST_BUTTON = "xpath://*[@text='Create new']",
-            NAME_OF_LIST_INPUT = "id:org.wikipedia:id/text_input",
-            OK_BUTTON = "id:android:id/button1",
-            CLOSE_ARTICLE_BUTTON = "xpath://android.widget.ImageButton[@content-desc='Navigate up']";
+    protected static String
+            TITLE_TPL,
+            FOOTER_ELEMENT,
+            BOOKMARK_BUTTON,
+            ADD_TO_ANOTHER_LIST_BUTTON,
+            CREATE_NEW_LIST_BUTTON,
+            NAME_OF_LIST_INPUT,
+            OK_BUTTON,
+            CLOSE_ARTICLE_BUTTON,
+            CLOSE_SYNC_ARTICLES_POPUP;
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -36,45 +38,79 @@ public class ArticlePageObject extends MainPageObject{
     public String getArticleTitle(String substring)
     {
         WebElement title_element = waitForTitleElementWithSubstring(substring);
-        return title_element.getAttribute("text");
+        if (Platform.getInstance().isAndroid()) {
+            return title_element.getAttribute("text");
+        } else {
+            return title_element.getAttribute("name");
+        }
     }
 
     public void swipeToFooter()
     {
-        this.swipeUpToFindElement(
-                FOOTER_ELEMENT,
-                "Cannot find footer element",
-                20
-        );
+        if (Platform.getInstance().isAndroid()){
+            this.swipeUpToFindElement(
+                    FOOTER_ELEMENT,
+                    "Cannot find footer element",
+                    40);
+        } else {
+            this.swipeTillElementAppear(
+                    FOOTER_ELEMENT,
+                    "Cannot find footer element",
+                    40);
+        }
     }
 
     public void addToMyListAndCreateNewList(String name_of_folder)
     {
-        this.waitForElementAndClick(
-                BOOKMARK_BUTTON,
-                "Cannot find bookmark button",
-                5);
-        this.waitForElementAndClick(
-                BOOKMARK_BUTTON,
-                "Cannot find bookmark button",
-                5);
-        this.waitForElementAndClick(
-                ADD_TO_ANOTHER_LIST_BUTTON,
-                "Cannot find 'Add to another reading list' button",
-                5);
-        this.waitForElementAndClick(
-                CREATE_NEW_LIST_BUTTON,
-                "Cannot find 'Create new' button",
-                5);
-        this.waitForElementAndSendKeys(
-                NAME_OF_LIST_INPUT,
-                name_of_folder,
-                "Cannot find 'Name of this list' input",
-                2);
-        this.waitForElementAndClick(
-                OK_BUTTON,
-                "Cannot find 'OK' button",
-                2);
+        if (Platform.getInstance().isAndroid()) {
+            this.waitForElementAndClick(
+                    BOOKMARK_BUTTON,
+                    "Cannot find bookmark button",
+                    5);
+            this.waitForElementAndClick(
+                    BOOKMARK_BUTTON,
+                    "Cannot find bookmark button",
+                    5);
+            this.waitForElementAndClick(
+                    ADD_TO_ANOTHER_LIST_BUTTON,
+                    "Cannot find 'Add to another reading list' button",
+                    5);
+            this.waitForElementAndClick(
+                    CREATE_NEW_LIST_BUTTON,
+                    "Cannot find 'Create new' button",
+                    5);
+            this.waitForElementAndSendKeys(
+                    NAME_OF_LIST_INPUT,
+                    name_of_folder,
+                    "Cannot find 'Name of this list' input",
+                    2);
+            this.waitForElementAndClick(
+                    OK_BUTTON,
+                    "Cannot find 'OK' button",
+                    2);
+        } else {
+            this.waitForElementAndClick(
+                    BOOKMARK_BUTTON,
+                    "Cannot find bookmark button",
+                    5);
+            this.waitForElementAndClick(
+                    ADD_TO_ANOTHER_LIST_BUTTON,
+                    "Cannot find 'Add to another reading list' button",
+                    5);
+            this.waitForElementAndClick(
+                    CREATE_NEW_LIST_BUTTON,
+                    "Cannot find 'Create new' button",
+                    5);
+            this.waitForElementAndSendKeys(
+                    NAME_OF_LIST_INPUT,
+                    name_of_folder,
+                    "Cannot find 'Name of this list' input",
+                    2);
+            this.waitForElementAndClick(
+                    OK_BUTTON,
+                    "Cannot find 'OK' button",
+                    2);
+        }
     }
 
     public void addArticlesToSaved()
@@ -100,6 +136,14 @@ public class ArticlePageObject extends MainPageObject{
                 article_xpath,
                 article_name,
                 "Cannot find expected text in first article found by the request " + article_name,
+                5);
+    }
+
+    public void closeSyncArticlesPopupIOSApp()
+    {
+        this.waitForElementAndClick(
+                CLOSE_SYNC_ARTICLES_POPUP,
+                "Cannot find and close sync articles popup",
                 5);
     }
 }

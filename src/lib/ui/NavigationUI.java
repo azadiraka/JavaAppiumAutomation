@@ -2,10 +2,10 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 
-public class NavigationUI extends MainPageObject
+abstract public class NavigationUI extends MainPageObject
 {
-    public final static String
-            SAVED_BUTTON = "xpath://*[@content-desc='Saved']";
+    protected static String
+            SAVED_BUTTON;
 
     public NavigationUI(AppiumDriver driver)
     {

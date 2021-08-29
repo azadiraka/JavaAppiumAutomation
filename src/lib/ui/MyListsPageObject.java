@@ -1,13 +1,15 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
-public class MyListsPageObject extends MainPageObject
+abstract public class MyListsPageObject extends MainPageObject
 {
-    public static final String
-            FOLDER_BY_NAME_TPL = "xpath://*[@resource-id='org.wikipedia:id/item_title'][@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{ARTICLE_NAME}']",
-            CLOSE_SYNC_LISTS_BUTTON = "id:org.wikipedia:id/negativeButton";
+    protected static String
+            FOLDER_BY_NAME_TPL,
+            ARTICLE_BY_TITLE_TPL,
+            CLOSE_SYNC_LISTS_BUTTON,
+            SWIPE_ACTION_TO_DELETE_BUTTON;
 
     /* TEMPLATE METHODS */
     private static String getFolderNameByXPath(String name_of_folder)
@@ -67,6 +69,12 @@ public class MyListsPageObject extends MainPageObject
         this.swipeElementToLeft(
                 article_xpath,
                 "Cannot delete saved article " + article_title);
+        if (Platform.getInstance().isIOS()) {
+            this.waitForElementAndClick(
+                    SWIPE_ACTION_TO_DELETE_BUTTON,
+                    "Cannot find and click on delete button",
+                    2);
+        }
         this.waitArticleToDisappear(article_title);
     }
 

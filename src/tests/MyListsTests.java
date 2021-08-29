@@ -1,43 +1,53 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListsPageObjectFactory;
+import lib.ui.factories.NavigationUIFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase
 {
+    private static String name_of_folder = "Learning programming";
     @Test
     public void testSaveFirstArticleInMyList() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstringByDescription("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstringByTitle("Object-oriented programming language");
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
         ArticlePageObject.waitForTitleElementWithSubstring("Java (programming language)");
         String article_title = ArticlePageObject.getArticleTitle("Java (programming language)");
-        String name_of_folder = "Learning programming";
+
         ArticlePageObject.addToMyListAndCreateNewList(name_of_folder);
         ArticlePageObject.closeArticle();
         SearchPageObject.closeSearch();
 
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickSaved();
 
-        MyListsPageObject MyListPageObject = new MyListsPageObject(driver);
+        if (Platform.getInstance().isIOS()) {
+            ArticlePageObject.closeSyncArticlesPopupIOSApp();
+        }
+
+        MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
         MyListPageObject.openFolderByName(name_of_folder);
         MyListPageObject.swipeArticleToDelete(article_title);
     }
 
     @Test
     public void testAddTwoArticlesToSaved() {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
@@ -45,7 +55,7 @@ public class MyListsTests extends CoreTestCase
         SearchPageObject.typeSearchLine(first_search_line);
         SearchPageObject.clickByArticleWithSubstringByTitle(first_search_line);
 
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.addArticlesToSaved();
         ArticlePageObject.closeArticle();
 
@@ -58,10 +68,10 @@ public class MyListsTests extends CoreTestCase
         ArticlePageObject.closeArticle();
         SearchPageObject.closeSearch();
 
-        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickSaved();
 
-        MyListsPageObject MyListPageObject = new MyListsPageObject(driver);
+        MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
         MyListPageObject.openFolderByName("Saved");
         MyListPageObject.waitArticleToAppear(first_search_line);
         MyListPageObject.waitArticleToAppear(second_search_line + " (film)");
