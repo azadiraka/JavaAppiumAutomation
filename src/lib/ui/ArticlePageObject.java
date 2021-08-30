@@ -9,7 +9,8 @@ abstract public class ArticlePageObject extends MainPageObject{
     protected static String
             TITLE_TPL,
             FOOTER_ELEMENT,
-            BOOKMARK_BUTTON,
+            ADD_TO_SAVED_BUTTON,
+            REMOVE_FROM_SAVED_BUTTON,
             ADD_TO_ANOTHER_LIST_BUTTON,
             CREATE_NEW_LIST_BUTTON,
             NAME_OF_LIST_INPUT,
@@ -32,7 +33,7 @@ abstract public class ArticlePageObject extends MainPageObject{
     public WebElement waitForTitleElementWithSubstring(String substring)
     {
         String article_title = getArticleTitleWithSubstring(substring);
-        return this.waitForElementPresent(article_title, "Cannot find the title of article", 5);
+        return this.waitForElementPresent(article_title, "Cannot find the title of article. The title is " + substring, 5);
     }
 
     public String getArticleTitle(String substring)
@@ -64,11 +65,11 @@ abstract public class ArticlePageObject extends MainPageObject{
     {
         if (Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
-                    BOOKMARK_BUTTON,
+                    ADD_TO_SAVED_BUTTON,
                     "Cannot find bookmark button",
                     5);
             this.waitForElementAndClick(
-                    BOOKMARK_BUTTON,
+                    ADD_TO_SAVED_BUTTON,
                     "Cannot find bookmark button",
                     5);
             this.waitForElementAndClick(
@@ -90,7 +91,7 @@ abstract public class ArticlePageObject extends MainPageObject{
                     2);
         } else {
             this.waitForElementAndClick(
-                    BOOKMARK_BUTTON,
+                    ADD_TO_SAVED_BUTTON,
                     "Cannot find bookmark button",
                     5);
             this.waitForElementAndClick(
@@ -116,8 +117,16 @@ abstract public class ArticlePageObject extends MainPageObject{
     public void addArticlesToSaved()
     {
         this.waitForElementAndClick(
-                BOOKMARK_BUTTON,
+                ADD_TO_SAVED_BUTTON,
                 "Cannot find bookmark button",
+                5);
+    }
+
+    public void waitForUnsavedButton()
+    {
+        this.waitForElementPresent(
+                REMOVE_FROM_SAVED_BUTTON,
+                "Perhaps this article was not added to Saved list",
                 5);
     }
 

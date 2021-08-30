@@ -14,7 +14,11 @@ import org.junit.Test;
 
 public class MyListsTests extends CoreTestCase
 {
-    private static String name_of_folder = "Learning programming";
+    private static String
+            name_of_folder = "Learning programming",
+            first_search_line = "Harry Potter",
+            second_search_line = "Star Wars";
+
     @Test
     public void testSaveFirstArticleInMyList() {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
@@ -51,17 +55,17 @@ public class MyListsTests extends CoreTestCase
 
         SearchPageObject.clickSkipOnboardingButton();
         SearchPageObject.initSearchInput();
-        String first_search_line = "Harry Potter";
+
         SearchPageObject.typeSearchLine(first_search_line);
         SearchPageObject.clickByArticleWithSubstringByTitle(first_search_line);
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+
         ArticlePageObject.addArticlesToSaved();
         ArticlePageObject.closeArticle();
 
         SearchPageObject.clickCancelSearchButton();
 
-        String second_search_line = "Star Wars";
         SearchPageObject.typeSearchLine(second_search_line);
         SearchPageObject.clickByArticleWithSubstringByTitle(second_search_line + " (film)");
         ArticlePageObject.addArticlesToSaved();
@@ -71,13 +75,19 @@ public class MyListsTests extends CoreTestCase
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickSaved();
 
+        if (Platform.getInstance().isIOS()) {
+            ArticlePageObject.closeSyncArticlesPopupIOSApp();
+        }
+
         MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
-        MyListPageObject.openFolderByName("Saved");
         MyListPageObject.waitArticleToAppear(first_search_line);
         MyListPageObject.waitArticleToAppear(second_search_line + " (film)");
         MyListPageObject.swipeArticleToDelete(second_search_line + " (film)");
         MyListPageObject.openArticleFromList(first_search_line);
+
         String article_name = ArticlePageObject.getArticleTitle(first_search_line);
         ArticlePageObject.assertArticleHasATextInTitle(article_name);
+
+        ArticlePageObject.waitForUnsavedButton();
     }
 }

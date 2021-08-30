@@ -6,9 +6,10 @@ import lib.ui.ArticlePageObject;
 public class IOSArticlePageObject extends ArticlePageObject {
 
     static {
-        TITLE_TPL = "id:Java (programming language)";
+        TITLE_TPL = "id:{SUBSTRING}";
         FOOTER_ELEMENT = "id:View article in browser";
-        BOOKMARK_BUTTON = "id:Save for later";
+        ADD_TO_SAVED_BUTTON = "id:Save for later";
+        REMOVE_FROM_SAVED_BUTTON = "id:Saved. Activate to unsave.";
         ADD_TO_ANOTHER_LIST_BUTTON = "id:Add “Java (programming language)” to a reading list?";
         CREATE_NEW_LIST_BUTTON = "xpath://XCUIElementTypeButton[@name='Create a new list']";
         NAME_OF_LIST_INPUT = "xpath://XCUIElementTypeTextField[@value='reading list title']";
