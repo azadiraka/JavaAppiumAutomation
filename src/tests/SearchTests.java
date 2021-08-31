@@ -57,6 +57,8 @@ public class SearchTests extends CoreTestCase {
                 amount_of_search_results >= 3);
 
         SearchPageObject.waitForElementByTitleAndDescription("MacBook Pro", "Line of notebook computers");
+        SearchPageObject.waitForElementByTitleAndDescription("MacBook", "Lines of Apple notebook computers");
+        SearchPageObject.waitForElementByTitleAndDescription("MacBook Air", "Line of ultraportable notebook computers by Apple");
     }
 
     @Test

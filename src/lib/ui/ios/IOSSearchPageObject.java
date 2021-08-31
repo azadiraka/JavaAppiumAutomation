@@ -12,10 +12,10 @@ public class IOSSearchPageObject extends SearchPageObject {
         SEARCH_RESULT_BY_TITLE_SUBSTRING_TPL = "xpath://XCUIElementTypeStaticText[contains(@name, '{SUBSTRING}')]";
         SEARCH_RESULT_BY_DESC_SUBSTRING_TPL = "xpath://*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{SUBSTRING}']";
         SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL =
-                "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*[@class='android.view.ViewGroup']" +
-                        "[.//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='{TITLE}']]" +
-                        "[.//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='{DESCRIPTION}']]";
-        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText";
+                "xpath://XCUIElementTypeCell" +
+                        "[.//XCUIElementTypeStaticText[@name='{TITLE}']]" +
+                        "[.//XCUIElementTypeStaticText[@name='{DESCRIPTION}']]";
+        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeCell";
         SEARCH_EMPTY_RESULT = "id:No results found";
         CLOSE_SEARCH_BUTTON = "xpath://XCUIElementTypeButton[@name='Cancel']";
         ARTICLE_TITLES_IN_SEARCH = "id:org.wikipedia:id/page_list_item_title";
